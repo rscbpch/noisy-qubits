@@ -9,6 +9,7 @@ dependencies = [
     "qiskit-aer>=0.17",
     "numpy",
     "pylatexenc",
+    "qiskit-ibm-runtime>=0.52.1",
 ]
 
 [dependency-groups]
