@@ -5,6 +5,7 @@ from typing import Literal
 
 from qiskit_aer.noise import NoiseModel
 
+from .devices import DEVICES, build_device_noise_model, check_fits, run_counts, transpile_for_device
 from .slider import slider_label, validate_slider
 from .uniform import NOISE_TYPES, build_uniform_noise_model
 
@@ -13,7 +14,10 @@ NoiseType = Literal[
 ]
 Mode = Literal["uniform", "device"]
 
-__all__ = ["build_noise_model", "slider_label", "NoiseType", "Mode", "NOISE_TYPES"]
+__all__ = [
+    "build_noise_model", "slider_label", "NoiseType", "Mode", "NOISE_TYPES",
+    "DEVICES", "check_fits", "run_counts", "transpile_for_device",
+]
 
 
 def build_noise_model(
@@ -28,5 +32,7 @@ def build_noise_model(
     if mode == "uniform":
         return build_uniform_noise_model(slider, noise_type, readout)
     if mode == "device":
-        raise NotImplementedError("Device mode comes in step 3.")
+        if device is None:
+            raise ValueError(f"Device mode needs a device; choose one of {DEVICES}.")
+        return build_device_noise_model(device, slider)
     raise ValueError(f"Unknown noise mode {mode!r}; use 'uniform' or 'device'.")
