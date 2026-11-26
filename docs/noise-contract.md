@@ -49,11 +49,39 @@ res = zne(
     shots=1024,
     score_fn=lambda counts: score(counts, **params),
     factors=(1, 2, 3),
+    device=None,             # device mode: pass the same device name as the raw run
+    method="exponential",    # "exponential" | "linear" | "richardson"
+    seed=None,
 )  # -> ZNEResult
 ```
 
 `ZNEResult` fields: `factors`, `scores` (one per factor), `mitigated`
-(curve value at noise 0), `raw` (score at factor 1).
+(curve value at noise 0, clipped to 0..1), `raw` (score at factor 1),
+`method`, `curve` (list of (factor, score) points from 0 to the largest
+factor, for the ZNE picture) and `reliable`.
 
-Gate folding is done on the transpiled circuit, so the extra gates get noise.
-Readout error is not mitigated (known limit, plan Section 10).
+`reliable` is False when the lowest measured score is under 10 shots' worth
+(`min_count`): the fit would be extrapolating from shot noise. The test flow
+must report FAIL, not RECOVERED, when `reliable` is False.
+
+- Gate folding is done on the transpiled circuit (device mode), so the extra
+  gates get noise. Only gates whose inverse is in the noise model are folded.
+- Fit: exponential by default. It was the most stable at 1024 shots and the
+  best for T1 decay (see the experiment table, Section 10.2).
+- Cost: the circuit runs at every factor, about 3x the raw run for the
+  gate-heavy part. A deep 10-qubit QFT test takes about 12 s.
+- Readout error is not mitigated (known limit, plan Section 10).
+
+## 4. Simulating: use `run_counts`
+
+```python
+from noisy_qubits.noise import run_counts
+
+counts = run_counts(circuit, shots=1024, noise_model=nm, device=None, seed=None)
+```
+
+Every algorithm's `run()` should simulate through this function, not through
+its own `AerSimulator`. It transpiles to the device when `device` is given
+(fixed seed, so the mapping is repeatable) and picks the fast simulator
+method. In device mode the same `device` name must be passed to
+`build_noise_model`, `run_counts` and `zne`.
