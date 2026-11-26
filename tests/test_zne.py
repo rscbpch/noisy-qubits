@@ -77,3 +77,11 @@ def test_zne_cannot_fix_readout_error():
     nm = build_noise_model("uniform", 50, noise_type="readout")
     r = zne(_ladder(), nm, 4096, _score, seed=1)
     assert r.mitigated == pytest.approx(r.raw, abs=0.03)
+
+
+def test_zne_flags_an_unreliable_fit_at_extreme_noise():
+    ok = zne(_ladder(), build_noise_model("uniform", 25), 4096, _score, seed=1)
+    assert ok.reliable
+    bad = zne(_ladder(), build_noise_model("uniform", 100, noise_type="bit_flip"), 4096,
+              lambda c: c.get("0001", 0) / sum(c.values()) * 0.001, seed=1)  # scores far below 10 shots
+    assert not bad.reliable

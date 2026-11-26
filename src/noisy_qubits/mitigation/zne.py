@@ -23,6 +23,9 @@ class ZNEResult:
     raw: float            # score at factor 1
     method: str = "exponential"
     curve: list[tuple[float, float]] = field(default_factory=list)  # for the ZNE picture
+    # False when the fit rests on scores that are mostly shot noise (see min_count).
+    # The test flow should then report FAIL, not RECOVERED.
+    reliable: bool = True
 
 
 def _eligible(inst, skip, basis) -> bool:
@@ -87,8 +90,13 @@ def zne(
     device: str | None = None,
     method: str = "exponential",
     seed: int | None = None,
+    min_count: int = 10,
 ) -> ZNEResult:
-    """Run at several noise factors and extrapolate the score back to zero noise."""
+    """Run at several noise factors and extrapolate the score back to zero noise.
+
+    `reliable` is False if the lowest measured score is below min_count / shots
+    (fewer than ~10 correct shots): extrapolating from that is guessing.
+    """
     if len(set(factors)) < 2 or min(factors) != 1:
         raise ValueError("Factors need at least two different values and must start at 1.")
     skip = ()
@@ -103,4 +111,5 @@ def zne(
         counts = run_counts(fold_gates(circuit, f, skip=skip, basis=basis), shots, noise_model, seed=seed)
         scores.append(float(score_fn(counts)))
     mitigated, curve = extrapolate(factors, scores, method)
-    return ZNEResult(tuple(factors), scores, mitigated, scores[factors.index(1)], method, curve)
+    reliable = min(scores) * shots >= min_count
+    return ZNEResult(tuple(factors), scores, mitigated, scores[factors.index(1)], method, curve, reliable)

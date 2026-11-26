@@ -1,0 +1,14 @@
+benchmark,mode,setting,ideal,pass_line,without,with_zne,gain,seconds
+superposition,uniform,depolarizing,0.97,0.485,100,100,0,1
+superposition,uniform,bit_flip,0.97,0.485,100,100,0,1
+superposition,uniform,phase_flip,0.97,0.485,100,100,0,1
+superposition,uniform,amplitude_damping,0.97,0.485,100,100,0,1
+superposition,uniform,readout,0.97,0.485,100,100,0,1
+qft_roundtrip,uniform,depolarizing,1.0,0.5,18,51,33,84
+qft_roundtrip,uniform,bit_flip,1.0,0.5,9,25,16,74
+qft_roundtrip,uniform,phase_flip,1.0,0.5,12,34,22,76
+qft_roundtrip,uniform,amplitude_damping,1.0,0.5,18,46,28,82
+qft_roundtrip,uniform,readout,1.0,0.5,100,100,0,9
+qft_roundtrip,device,FakeGuadalupe,1.0,0.5,7,20,13,126
+qft_roundtrip,device,FakeKolkata,1.0,0.5,11,27,16,142
+qft_roundtrip,device,FakeMontreal,1.0,0.5,11,25,14,133

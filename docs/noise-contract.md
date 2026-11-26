@@ -57,8 +57,12 @@ res = zne(
 
 `ZNEResult` fields: `factors`, `scores` (one per factor), `mitigated`
 (curve value at noise 0, clipped to 0..1), `raw` (score at factor 1),
-`method`, and `curve` (list of (factor, score) points from 0 to the largest
-factor, for the ZNE picture).
+`method`, `curve` (list of (factor, score) points from 0 to the largest
+factor, for the ZNE picture) and `reliable`.
+
+`reliable` is False when the lowest measured score is under 10 shots' worth
+(`min_count`): the fit would be extrapolating from shot noise. The test flow
+must report FAIL, not RECOVERED, when `reliable` is False.
 
 - Gate folding is done on the transpiled circuit (device mode), so the extra
   gates get noise. Only gates whose inverse is in the noise model are folded.
