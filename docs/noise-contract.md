@@ -71,3 +71,17 @@ must report FAIL, not RECOVERED, when `reliable` is False.
 - Cost: the circuit runs at every factor, about 3x the raw run for the
   gate-heavy part. A deep 10-qubit QFT test takes about 12 s.
 - Readout error is not mitigated (known limit, plan Section 10).
+
+## 4. Simulating: use `run_counts`
+
+```python
+from noisy_qubits.noise import run_counts
+
+counts = run_counts(circuit, shots=1024, noise_model=nm, device=None, seed=None)
+```
+
+Every algorithm's `run()` should simulate through this function, not through
+its own `AerSimulator`. It transpiles to the device when `device` is given
+(fixed seed, so the mapping is repeatable) and picks the fast simulator
+method. In device mode the same `device` name must be passed to
+`build_noise_model`, `run_counts` and `zne`.
