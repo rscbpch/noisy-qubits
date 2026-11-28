@@ -44,4 +44,7 @@ this contract, but the text is not in our copy.
 4. A typed Deutsch-Jozsa oracle uses `mcx`, which is not in the gate list. Should
    the API decompose it before building `circuit.ops`?
 5. Should one `/api/run` call take one device (as drafted) or up to three?
-6. What error shape should `/api/run` and `/api/qasm` return for invalid input?
+6. The sample UI has an "Add readout error" checkbox, sent as `readoutError`
+   (true or false). `build_noise_model` needs an amount from 0 to 1. Which
+   amount should the API use? (Member 5 may need to answer.)
+7. What error shape should `/api/run` and `/api/qasm` return for invalid input?
