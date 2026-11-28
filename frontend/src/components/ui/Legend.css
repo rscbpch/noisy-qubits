@@ -1,0 +1,2 @@
+.legend { display: flex; flex-wrap: wrap; gap: 16px; margin: 4px 0 8px; color: var(--muted); font-size: 12px; }
+.legend i { display: inline-block; width: 10px; height: 10px; margin-right: 5px; vertical-align: -1px; border: 1px solid #0000000f; border-radius: 2px; }

@@ -1,0 +1,11 @@
+.page-columns { display: grid; grid-template-columns: 320px minmax(0, 1fr); align-items: start; gap: 20px; max-width: 1500px; margin: 0 auto; padding: 20px 28px; }
+/* The settings stay in view while the results scroll. */
+.page-sidebar { position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow: auto; border-radius: var(--radius); }
+.page-main { min-width: 0; }
+.page-below { max-width: 1500px; margin: 0 auto; padding: 0 28px 36px; }
+
+@media (max-width: 900px) {
+  .page-columns { grid-template-columns: minmax(0, 1fr); padding: 14px; }
+  .page-sidebar { position: static; max-height: none; }
+  .page-below { padding: 0 14px 28px; }
+}

@@ -1,0 +1,1 @@
+.placeholder { display: flex; flex-direction: column; gap: 4px; padding: 22px 16px; text-align: center; color: var(--muted); border: 1px dashed var(--line-input); border-radius: 8px; }

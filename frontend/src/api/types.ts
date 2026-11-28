@@ -7,7 +7,7 @@ export type { AlgorithmId }
 
 export type DeviceId = 'FakeGuadalupe' | 'FakeKolkata' | 'FakeMontreal'
 export type NoiseMode = 'uniform' | 'device'
-export type NoiseType = 'depolarizing' | 'bit_flip' | 'phase_flip' | 'amplitude_damping' | 'readout'
+export type NoiseType = 'depolarizing' | 'bit_flip' | 'phase_flip' | 'amplitude_damping'
 export type Verdict = 'PASS' | 'RECOVERED' | 'FAIL'
 
 // ---------- Circuit ----------
@@ -38,8 +38,8 @@ export type AlgorithmParams =
   | { algorithm: 'superposition'; nQubits: number }
   | { algorithm: 'deutsch_jozsa'; nQubits: number; oracle: 'constant-0' | 'constant-1' | 'balanced'; truthTable?: string }
   | { algorithm: 'qft'; nQubits: number; inputState: string }
-  /** The phase is k / 512, with k from 0 to 511. */
-  | { algorithm: 'qpe'; phaseK: number }
+  /** nQubits - 1 counting qubits. The phase is k / 2^(nQubits - 1); k / 512 at 10 qubits. */
+  | { algorithm: 'qpe'; nQubits: number; phaseK: number }
   | { algorithm: 'simon'; secret: string }
 
 // ---------- GET /api/algorithms, GET /api/devices ----------
@@ -64,6 +64,8 @@ export interface RunRequest {
   /** Required when mode is 'device'. One device per request. */
   device?: DeviceId
   noiseType: NoiseType
+  /** Uniform mode only: also add readout error. The amount is not decided yet. */
+  readoutError: boolean
   /** Whole number from 1 to 100. */
   slider: number
   shots: number

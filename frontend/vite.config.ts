@@ -4,4 +4,8 @@ import { defineConfig } from 'vite'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  server: {
+    // In development, /api requests go to the Python API (uvicorn's default port).
+    proxy: { '/api': 'http://127.0.0.1:8000' },
+  },
 })
