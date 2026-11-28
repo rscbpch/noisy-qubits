@@ -1,0 +1,31 @@
+/* Design tokens: layout from "sample-ui V2", with maroon as the primary colour. */
+:root {
+  --text: #1f2937;
+  --ink: #111827;
+  --label: #374151;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --line-input: #d9dde3;
+  --bg: #f6f7f9;
+  --card: #fff;
+  --hover: #f3f4f6;
+  --accent: #790d16; /* primary */
+  --accent-dark: #5c0a11;
+  --accent-soft: #f8ecee;
+  --accent-line: #dbb0b5;
+  --pass: #15803d;
+  --pass-bg: #e8f6ee;
+  --recovered: #a45a0a;
+  --recovered-bg: #fdf3dc;
+  --fail: #b42318;
+  --fail-bg: #fdeceb;
+  --ideal: #9ca8ba;
+  --noisy: var(--accent);
+  --controlled: #6b4fa0;
+  --on-accent: #fff;
+
+  --radius: 10px;
+  --radius-small: 6px;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: Consolas, Menlo, monospace;
+}

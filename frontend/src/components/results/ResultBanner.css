@@ -1,0 +1,2 @@
+.result-banner { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; padding: 14px 16px; background: var(--bg); border-radius: 8px; }
+.result-text { flex: 1; min-width: 220px; }

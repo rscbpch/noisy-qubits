@@ -1,0 +1,5 @@
+.pill { padding: 6px 14px; font-size: 13px; font-weight: 700; letter-spacing: .04em; border-radius: var(--radius-small); }
+.pill-PASS { color: var(--pass); background: var(--pass-bg); }
+.pill-RECOVERED { color: var(--recovered); background: var(--recovered-bg); }
+.pill-FAIL { color: var(--fail); background: var(--fail-bg); }
+.pill-idle { color: var(--muted); background: var(--line); }
